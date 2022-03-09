@@ -14,7 +14,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
 
 add_executable(
   ${TARGET_NAME}
@@ -23,7 +22,7 @@ add_executable(
 target_link_libraries(
   ${TARGET_NAME}
   gtest_main
-  gslwrapper
+  GSL::gsl GSL::gslcblas
 )
 
 include(GoogleTest)
