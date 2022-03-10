@@ -146,7 +146,14 @@ namespace gsl_wrapper
   {
     if (m_vector_size != comparasion_vector.m_vector_size)
       return false;
-    return static_cast<bool>(gsl_vector_equal(m_vector_ptr, comparasion_vector.m_vector_ptr));
+
+    for (size_t i = 0; i < m_vector_size; i++)
+    {
+      bool test = gsl_wrapper::utils::equal((*this)[i], comparasion_vector[i], 1e-6);
+      if (!test)
+        return false;
+    }
+    return true;
   }
 
   inline auto Vector::operator!=(const Vector &comparasion_vector) -> bool
