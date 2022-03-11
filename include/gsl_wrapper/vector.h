@@ -8,6 +8,8 @@
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_linalg.h>
 
+#include "utils.fcmp.h"
+
 namespace gsl_wrapper
 {
 
