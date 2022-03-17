@@ -188,7 +188,7 @@ namespace gsl_wrapper
     {
       for (size_t j = 0; j < m_numCollumns; j++)
       {
-        bool test = gsl_wrapper::utils::equal((*this)[i][j], comparasion_matrix[i][j], 1e-6);
+        bool test = ::gsl_wrapper::utils::equal((*this)[i][j], comparasion_matrix[i][j], 1e-6);
         if (!test)
           return false;
       }

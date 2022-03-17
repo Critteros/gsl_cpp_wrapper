@@ -8,6 +8,8 @@
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_linalg.h>
 
+#include "utils/fcmp.h"
+
 namespace gsl_wrapper
 {
 
@@ -149,7 +151,7 @@ namespace gsl_wrapper
 
     for (size_t i = 0; i < m_vector_size; i++)
     {
-      bool test = gsl_wrapper::utils::equal((*this)[i], comparasion_vector[i], 1e-6);
+      bool test = ::gsl_wrapper::utils::equal((*this)[i], comparasion_vector[i], 1e-6);
       if (!test)
         return false;
     }
