@@ -211,9 +211,6 @@ namespace gsl_wrapper
   inline auto Matrix::operator*(const Matrix &mul) const -> Matrix
   {
     //Check sizes
-    if (m_numRows != mul.m_numCollumns)
-      throw std::runtime_error{"Wrong matrix sizes!"};
-
     if (m_numCollumns != mul.m_numRows)
       throw std::runtime_error{"Wrong matrix sizes!"};
 
