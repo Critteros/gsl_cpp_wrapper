@@ -18,7 +18,7 @@ namespace gsl_wrapper
   class Matrix
   {
   public:
-    //Constructors and destructor
+    // Constructors and destructor
     Matrix(size_t i, size_t j);
     Matrix(size_t matrix_size);
     Matrix(std::initializer_list<std::initializer_list<double>> args);
@@ -29,13 +29,13 @@ namespace gsl_wrapper
 
     ~Matrix();
 
-    //Member functions
-    auto get_gsl_matrix() -> gsl_matrix *;
+    // Member functions
+    auto get_gsl_matrix() const -> gsl_matrix *;
     auto get_dimensions() const -> std::pair<size_t, size_t>;
     auto num_rows() const -> size_t;
     auto num_collumns() const -> size_t;
 
-    //Operators
+    // Operators
     auto operator=(const Matrix &copy_from) -> Matrix &;
     auto operator=(Matrix &&move_from) -> Matrix &;
 
@@ -48,7 +48,7 @@ namespace gsl_wrapper
     auto operator+(const Matrix &matrix) const -> Matrix;
     auto operator+(const double numer) const -> Matrix;
 
-    //Friend declarations
+    // Friend declarations
     friend auto operator<<(std::ostream &stream, const Matrix &matrix) -> std::ostream &;
     friend auto operator*(const double number, const Matrix &matrix) -> Matrix;
     friend auto operator+(const double number, const Matrix &matrix) -> Matrix;
@@ -77,7 +77,7 @@ namespace gsl_wrapper
     size_t num_rows = args.size();
     size_t num_collumns = (*args.begin()).size();
 
-    //Setting object properties
+    // Setting object properties
     m_numCollumns = num_collumns;
     m_numRows = num_rows;
     m_matrixPtr = gsl_matrix_calloc(m_numRows, m_numCollumns);
@@ -129,7 +129,7 @@ namespace gsl_wrapper
     gsl_matrix_free(m_matrixPtr);
   }
 
-  inline auto Matrix::get_gsl_matrix() -> gsl_matrix *
+  inline auto Matrix::get_gsl_matrix() const -> gsl_matrix *
   {
     return m_matrixPtr;
   }
@@ -150,8 +150,8 @@ namespace gsl_wrapper
 
   inline auto Matrix::operator=(const Matrix &copy_from) -> Matrix &
   {
-    //Prevent self copy
-    if (*this == copy_from)
+    // Prevent self copy
+    if (m_matrixPtr == copy_from.m_matrixPtr)
       return *this;
 
     gsl_matrix_free(m_matrixPtr);
@@ -166,8 +166,8 @@ namespace gsl_wrapper
 
   inline auto Matrix::operator=(Matrix &&move_from) -> Matrix &
   {
-    //Prevent self move
-    if (*this == move_from)
+    // Prevent self move
+    if (m_matrixPtr == move_from.m_matrixPtr)
       return *this;
 
     gsl_matrix_free(m_matrixPtr);
@@ -188,7 +188,7 @@ namespace gsl_wrapper
     {
       for (size_t j = 0; j < m_numCollumns; j++)
       {
-        bool test = ::gsl_wrapper::utils::equal((*this)[i][j], comparasion_matrix[i][j], 1e-6);
+        bool test = ::gsl_wrapper::utils::equal((*this)[i][j], comparasion_matrix[i][j]);
         if (!test)
           return false;
       }
@@ -210,7 +210,7 @@ namespace gsl_wrapper
 
   inline auto Matrix::operator*(const Matrix &mul) const -> Matrix
   {
-    //Check sizes
+    // Check sizes
     if (m_numCollumns != mul.m_numRows)
       throw std::runtime_error{"Wrong matrix sizes!"};
 

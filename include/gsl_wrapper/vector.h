@@ -16,7 +16,7 @@ namespace gsl_wrapper
   class Vector
   {
   public:
-    //Constructors and destructor
+    // Constructors and destructor
     Vector(size_t vec_size);
     Vector(gsl_vector *gsl_vec_ptr);
 
@@ -27,13 +27,13 @@ namespace gsl_wrapper
 
     ~Vector();
 
-    //Member functions
-    auto get_gsl_vector() -> gsl_vector *;
+    // Member functions
+    auto get_gsl_vector() const -> gsl_vector *;
     auto size() const -> size_t;
     auto begin() const -> double *;
     auto end() const -> double *;
 
-    //Operators
+    // Operators
     auto operator=(const Vector &copy_from) -> Vector &;
     auto operator=(Vector &&move_from) -> Vector &;
 
@@ -47,7 +47,7 @@ namespace gsl_wrapper
     auto operator-(const Vector &sub) const -> Vector;
     auto operator*(const double number) const -> Vector;
 
-    //Friend declarations
+    // Friend declarations
     friend auto operator<<(std::ostream &stream, const Vector &to_print) -> std::ostream &;
     friend auto operator*(const double number, const Vector &vec) -> Vector;
 
@@ -97,7 +97,7 @@ namespace gsl_wrapper
     gsl_vector_free(m_vector_ptr);
   }
 
-  inline auto Vector::get_gsl_vector() -> gsl_vector *
+  inline auto Vector::get_gsl_vector() const -> gsl_vector *
   {
     return m_vector_ptr;
   }
@@ -119,8 +119,8 @@ namespace gsl_wrapper
 
   inline auto Vector::operator=(const Vector &copy_from) -> Vector &
   {
-    //Prevent self copy
-    if (*this == copy_from)
+    // Prevent self copy
+    if (m_vector_ptr == copy_from.m_vector_ptr)
       return *this;
 
     gsl_vector_free(m_vector_ptr);
@@ -133,8 +133,8 @@ namespace gsl_wrapper
 
   inline auto Vector::operator=(Vector &&move_from) -> Vector &
   {
-    //Prevent self move
-    if (*this == move_from)
+    // Prevent self move
+    if (m_vector_ptr == move_from.m_vector_ptr)
       return *this;
 
     gsl_vector_free(m_vector_ptr);
@@ -151,7 +151,7 @@ namespace gsl_wrapper
 
     for (size_t i = 0; i < m_vector_size; i++)
     {
-      bool test = ::gsl_wrapper::utils::equal((*this)[i], comparasion_vector[i], 1e-6);
+      bool test = ::gsl_wrapper::utils::equal((*this)[i], comparasion_vector[i]);
       if (!test)
         return false;
     }

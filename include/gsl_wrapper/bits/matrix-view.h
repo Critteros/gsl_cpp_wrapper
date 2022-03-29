@@ -10,10 +10,10 @@ namespace gsl_wrapper::bits
   class MatrixRow
   {
   public:
-    //Consructor
+    // Consructor
     MatrixRow(gsl_vector_view view);
 
-    //Operators
+    // Operators
     operator ::gsl_wrapper::Vector() const;
 
     auto operator[](const size_t index) -> double &;
@@ -35,12 +35,12 @@ namespace gsl_wrapper::bits
     return ::gsl_wrapper::Vector(space);
   }
 
-  auto MatrixRow::operator[](const size_t index) -> double &
+  inline auto MatrixRow::operator[](const size_t index) -> double &
   {
     return *gsl_vector_ptr(&m_view.vector, index);
   }
 
-  auto MatrixRow::operator[](const size_t index) const -> const double &
+  inline auto MatrixRow::operator[](const size_t index) const -> const double &
   {
     return *gsl_vector_const_ptr(&m_view.vector, index);
   }
