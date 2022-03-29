@@ -11,31 +11,31 @@ TEST(Generic, DoubleComparision)
   {
     double d1 = 0.0995691;
     double d2 = 0.0995669;
-    ASSERT_TRUE(equal(d1, d2));
+    EXPECT_FALSE(equal(d1, d2));
   }
   {
     double d1 = 0.0995663123123123123123123123123123123123;
     double d2 = 0.0995663123123123123123123123123123123124;
-    ASSERT_FALSE(equal(d1, d2));
+    EXPECT_TRUE(equal(d1, d2));
   }
   {
     double d1 = 0.099566312312312312312312312312312312312123123123123123123124;
     double d2 = 0.099566312312312312312312312312312312312123123123123123123123;
-    ASSERT_FALSE(equal(d1, d2));
+    EXPECT_TRUE(equal(d1, d2));
   }
   {
     double d1 = 0.099566312312312312312312312312312312312123123123123123123123;
     double d2 = 0.099566312312312312312312312312312312312123123123123123123123;
-    ASSERT_TRUE(equal(d1, d2));
+    EXPECT_TRUE(equal(d1, d2));
   }
   {
     double d1 = 3.45e-90;
     double d2 = 3.45e-90;
-    ASSERT_TRUE(equal(d1, d2));
+    EXPECT_TRUE(equal(d1, d2));
   }
   {
     double d1 = 3.46e-90;
     double d2 = 3.45e-90;
-    ASSERT_FALSE(equal(d1, d2));
+    EXPECT_FALSE(equal(d1, d2));
   }
 }
