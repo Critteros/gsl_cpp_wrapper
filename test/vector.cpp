@@ -4,6 +4,9 @@
 
 #include <sstream>
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <tuple>
 
 using gsl_wrapper::Vector;
 
@@ -29,6 +32,32 @@ TEST(VectorTest, ListConstructor)
   for (size_t i = 0; i < 5; i++)
   {
     ASSERT_EQ(test_subject[i], static_cast<double>(i + 1));
+  }
+}
+
+TEST(VectorTest, StandardVectorConstructor)
+{
+  std::vector<int> elements_i(300);
+  std::vector<double> elements_d(300);
+  std::vector<float> elements_f(300);
+
+  std::generate(elements_i.begin(), elements_i.end(), [n = 0]() mutable
+                { return n++; });
+  std::generate(elements_d.begin(), elements_d.end(), [n = 0.0]() mutable
+                { return n += 0.5; });
+
+  std::generate(elements_f.begin(), elements_f.end(), [n = 0.0]() mutable
+                { return n += 0.5; });
+
+  Vector from_doubles(elements_d);
+  Vector from_ints(elements_i);
+  Vector from_floats(elements_f);
+
+  for (auto [i, n_i, n_f, n_d] = std::tuple(0u, 0, 0.0f, 0.0); i < from_doubles.size(); i++)
+  {
+    EXPECT_EQ(from_doubles[i], n_d += 0.5);
+    EXPECT_EQ(from_floats[i], n_f += 0.5);
+    EXPECT_EQ(from_ints[i], n_i++);
   }
 }
 

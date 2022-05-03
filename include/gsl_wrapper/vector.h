@@ -4,6 +4,7 @@
 #include <iostream>
 #include <initializer_list>
 #include <exception>
+#include <vector>
 
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_linalg.h>
@@ -22,6 +23,11 @@ namespace gsl_wrapper
 
     Vector(const Vector &copy_from);
     Vector(Vector &&move_from);
+
+    template <
+        typename T,
+        typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+    Vector(const std::vector<T> &data);
 
     Vector(std::initializer_list<double> args);
 
@@ -89,6 +95,18 @@ namespace gsl_wrapper
     for (auto &&el : args)
     {
       gsl_vector_set(m_vector_ptr, i++, el);
+    }
+  }
+
+  template <
+      typename T,
+      typename>
+  inline Vector::Vector(const std::vector<T> &data)
+      : Vector(data.size())
+  {
+    for (size_t i = 0; i < data.size(); i++)
+    {
+      (*this)[i] = data[i];
     }
   }
 
